@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevProbe AI — Adaptive Learning Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<style>
+:root{--bg:#060d1c;--bg2:#0c1830;--card:#101d38;--border:#1a3060;--blue:#3b82f6;--blue2:#2563eb;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--purple:#8b5cf6;--cyan:#06b6d4;--orange:#f97316;--text:#e2e8f0;--muted:#64748b;--subtle:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px;}
+#root{width:100%;max-width:900px;flex:1;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;margin-bottom:14px;}
+.card-sm{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;}
+.row{display:flex;gap:12px;flex-wrap:wrap;}.col{flex:1;min-width:140px;}
+.header{text-align:center;padding:28px 0 16px;}
+.logo-pill{display:inline-block;background:linear-gradient(135deg,#3b82f6,#8b5cf6);padding:8px 20px;border-radius:8px;font-size:11px;font-weight:800;letter-spacing:3px;color:white;margin-bottom:14px;}
+.h1{font-size:32px;font-weight:900;background:linear-gradient(135deg,#e2e8f0,#64748b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.h2{font-size:20px;font-weight:700;margin-bottom:6px;}
+.muted{color:var(--subtle);font-size:14px;}
+.sec{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);display:block;margin-bottom:8px;}
+.lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;display:block;}
+.inp{width:100%;padding:11px 15px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:'Inter',sans-serif;transition:border .2s;}
+.inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.1);}
+.ig{margin-bottom:16px;}
+.ta{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--text);font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:90px;}
+.ta:focus{outline:none;border-color:var(--blue);}
+input[type="range"]{width:100%;accent-color:var(--blue);cursor:pointer;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 20px;border-radius:10px;border:none;font-weight:600;cursor:pointer;font-size:14px;font-family:'Inter',sans-serif;transition:all .18s;}
+.btn-full{width:100%;display:flex;}.btn-primary{background:var(--blue);color:white;}.btn-primary:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 5px 18px rgba(59,130,246,.28);}
+.btn-ghost{background:transparent;color:var(--subtle);border:1px solid var(--border);}.btn-ghost:hover{background:var(--bg2);color:var(--text);}
+.btn-green{background:var(--green);color:white;}.btn-green:hover{background:#059669;transform:translateY(-1px);}
+.btn-purple{background:var(--purple);color:white;}.btn-purple:hover{background:#7c3aed;}
+.btn-orange{background:var(--orange);color:white;}.btn-orange:hover{background:#ea6c0a;}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;}
+
+.tg-group{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.tg{flex:1;min-width:70px;padding:9px 13px;border-radius:8px;border:2px solid var(--border);background:var(--bg);color:var(--subtle);cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;transition:all .15s;text-align:center;}
+.tg:hover{border-color:var(--blue);color:var(--text);}.tg.on{background:var(--blue);border-color:var(--blue);color:white;}.tg.on-green{background:var(--green);border-color:var(--green);color:white;}
+
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:16px;}
+.chip{padding:8px 12px;border-radius:8px;border:2px solid var(--border);background:var(--bg);color:var(--subtle);cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;display:flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;}
+.chip:hover{border-color:var(--cyan);color:var(--text);}.chip.on{background:rgba(6,182,212,.12);border-color:var(--cyan);color:var(--cyan);}
+.chip .ck{opacity:0;font-size:10px;}.chip.on .ck{opacity:1;}
+
+/* LeetCode Question Card */
+.lc-card{background:linear-gradient(135deg,rgba(6,182,212,.06),rgba(139,92,246,.06));border:1px solid rgba(6,182,212,.25);border-radius:14px;padding:20px;margin-bottom:16px;}
+.lc-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+.lc-title{font-size:19px;font-weight:800;color:var(--cyan);flex:1;}
+.lc-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.lc-desc{font-size:14px;color:var(--subtle);line-height:1.8;white-space:pre-wrap;max-height:260px;overflow-y:auto;background:rgba(0,0,0,.2);border-radius:8px;padding:14px;margin-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:13px;}
+.lc-tests{background:#030b1a;border:1px solid #0f2040;border-radius:8px;padding:14px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#6ee7b7;white-space:pre;margin-bottom:12px;}
+.lc-prompt{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:8px;padding:14px;font-size:13px;color:#c4b5fd;white-space:pre-wrap;line-height:1.7;}
+.lc-link{display:inline-flex;align-items:center;gap:6px;color:var(--cyan);font-weight:700;font-size:13px;text-decoration:none;padding:7px 14px;border:1px solid rgba(6,182,212,.3);border-radius:8px;background:rgba(6,182,212,.08);transition:all .15s;}
+.lc-link:hover{background:rgba(6,182,212,.18);transform:translateY(-1px);}
+
+.mcq-opt{display:block;width:100%;padding:12px 17px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;text-align:left;transition:all .14s;margin-bottom:9px;}
+.mcq-opt:hover{border-color:var(--blue);background:rgba(59,130,246,.08);}
+.mcq-opt.sel{border-color:var(--blue);background:rgba(59,130,246,.15);}
+.mcq-opt.correct-opt{border-color:var(--green);background:rgba(16,185,129,.12);}
+.mcq-opt.wrong-opt{border-color:var(--red);background:rgba(239,68,68,.1);}
+
+.code-blk{background:#030b1a;border:1px solid #0f2040;border-radius:10px;padding:18px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#a5b4fc;white-space:pre-wrap;line-height:1.7;overflow-x:auto;margin:10px 0 18px;}
+
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid;}
+.b-blue{color:var(--blue);border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.1);}
+.b-green{color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.1);}
+.b-red{color:var(--red);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.1);}
+.b-yellow{color:var(--yellow);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.1);}
+.b-purple{color:var(--purple);border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.1);}
+.b-cyan{color:var(--cyan);border-color:rgba(6,182,212,.3);background:rgba(6,182,212,.1);}
+.b-orange{color:var(--orange);border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.1);}
+
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin:14px 0;}
+.stat-c{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.stat-n{font-size:26px;font-weight:800;margin-top:5px;}.stat-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+
+.prog-bar{background:var(--bg2);border-radius:8px;height:5px;margin:8px 0;overflow:hidden;}
+.prog-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .3s;}
+.timer{font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.timer-w{color:var(--yellow);}.timer-d{color:var(--red);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.hint-box{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.22);border-radius:10px;padding:12px 16px;font-size:14px;color:#fde68a;margin:10px 0;}
+.fb-good{background:rgba(16,185,129,.09);border:1px solid rgba(16,185,129,.2);color:#6ee7b7;padding:14px 18px;border-radius:10px;line-height:1.75;white-space:pre-wrap;}
+.fb-mid{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);color:#fcd34d;padding:14px 18px;border-radius:10px;line-height:1.75;white-space:pre-wrap;}
+.fb-bad{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);color:#fca5a5;padding:14px 18px;border-radius:10px;line-height:1.75;white-space:pre-wrap;}
+.corr-blk{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:16px;margin:12px 0;}
+.corr-pill{display:inline-block;background:rgba(16,185,129,.18);border:2px solid var(--green);border-radius:8px;padding:7px 14px;font-weight:700;font-size:14px;color:#a7f3d0;margin:7px 0;}
+
+/* Training topic browser */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:16px;}
+.topic-btn{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--subtle);text-align:left;transition:all .15s;display:flex;flex-direction:column;gap:4px;}
+.topic-btn:hover{border-color:var(--purple);color:var(--text);background:rgba(139,92,246,.08);}
+.topic-btn.weak{border-color:rgba(239,68,68,.4);color:var(--red);background:rgba(239,68,68,.05);}
+.topic-btn.weak:hover{border-color:var(--red);background:rgba(239,68,68,.15);}
+.topic-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:2px;}
+
+/* Interactive training */
+.train-mini-chat{background:var(--bg);border:1px solid var(--border);border-radius:10px;max-height:240px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;margin-bottom:10px;}
+.train-bubble{padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.65;white-space:pre-wrap;}
+.tbl-ai{background:var(--card);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:3px;max-width:90%;}
+.tbl-user{background:var(--blue);color:white;align-self:flex-end;border-bottom-right-radius:3px;}
+
+/* Chat */
+.chat-wrap{display:flex;flex-direction:column;height:420px;background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.chat-log{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;}
+.bubble{max-width:80%;padding:11px 15px;border-radius:14px;font-size:14px;line-height:1.65;white-space:pre-wrap;}
+.bbl-ai{background:var(--card);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:3px;}
+.bbl-user{background:var(--blue);color:white;align-self:flex-end;border-bottom-right-radius:3px;}
+.chat-foot{display:flex;border-top:1px solid var(--border);padding:11px;gap:9px;background:var(--card);}
+
+/* Org info box */
+.org-info{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.2);border-radius:10px;padding:14px 18px;font-size:13px;color:#fdba74;margin-bottom:14px;line-height:1.7;}
+
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{padding:9px 13px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);border-bottom:1px solid var(--border);}
+td{padding:11px 13px;border-bottom:1px solid rgba(26,47,90,.4);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+
+.loader{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 20px;}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:16px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 6px;letter-spacing:.5px;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+const API = (window.location.protocol === 'file:') ? "http://localhost:5003" : window.location.origin;
+const TOTAL_Q = 10;
+const TOTAL_TRAIN = 3;
+
+const TECH_OPTIONS = ["Java","JavaScript","Python","SQL","Spring Boot","React","Angular","Vue","Node.js","Oracle DB","AWS","Azure","GCP","Docker/Kubernetes","C#/.NET","PHP","Go","TypeScript"];
+
+// ALL topics for training browser
+const TOPIC_BROWSER = {
+  "☕ Java":        ["HashMap & Collections","Optional & Null Safety","Stream API","Exception Handling","Threads & ReentrantLock","Memory Leaks","Design Patterns"],
+  "🌐 JavaScript":  ["Closures & Scope","Promises & async/await","Event Loop","React Hooks","Debounce & Throttle","ES6+ Features","Node.js Fundamentals"],
+  "🐍 Python":      ["Generators & Iterators","Decorators","Context Managers","List Comprehensions","OOP in Python","Pandas Basics"],
+  "🗄️ SQL":         ["Indexes & Sargability","JOINs & Subqueries","Transactions & Locking","PL/SQL BULK COLLECT","Query Optimization"],
+  "📦 WMS":         ["LPN & Putaway","Wave Planning & Allocation","Cycle Counting","Replenishment","Inventory Holds"],
+  "🔗 SCM":         ["P2P Cycle","Order Orchestration (DOO)","Drop Shipment","Supplier Management"],
+  "👥 HCM":         ["Worker & Employee","Payroll Elements","Absence Management","Benefits & Compensation"],
+  "💰 Fixed Assets":["Mass Additions","Depreciation Methods","Prorate Conventions","Asset Retirement","Revaluation"]
+};
+
+function post(ep, body) {
+  return fetch(`${API}${ep}`, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body) }).then(r => r.json());
+}
+function scoreCol(s) { return s>=75?"var(--green)":s>=45?"var(--yellow)":"var(--red)"; }
+function Footer() { return <div className="footer">© Himanshu@2026 — All Rights Reserved</div>; }
+
+// LeetCode Question Component
+function LeetCodeQuestion({ q, mcqAns, setMcqAns, textAns, setTextAns, hintRevd, setHintRevd, experience, confidence, setConfidence, onSubmit }) {
+  const isMCQ = q.type === "mcq";
+  return (
+    <div>
+      <div className="lc-card">
+        <div className="lc-header">
+          <div className="lc-title">{q.title}</div>
+          <a className="lc-link" href={q.problemUrl || q.sourceUrl} target="_blank" rel="noopener noreferrer">
+            🔗 Open on LeetCode ↗
+          </a>
+        </div>
+        <div className="lc-meta">
+          <span className={`bdg ${q.lcDifficulty==="Easy"?"b-green":q.lcDifficulty==="Hard"?"b-red":"b-yellow"}`}>
+            {q.lcDifficulty || "Medium"}
+          </span>
+          <span className="bdg b-blue">LeetCode</span>
+          {(q.topicTags || []).map((t, i) => <span key={i} className="bdg b-purple">{t}</span>)}
+        </div>
+
+        {q.text && q.text.length > 20 && (
+          <div className="lc-desc">{q.text}</div>
+        )}
+
+        {q.testCases && (
+          <div>
+            <div className="sec" style={{marginBottom:6,color:"var(--green)"}}>📋 Sample Test Cases</div>
+            <div className="lc-tests">{q.testCases}</div>
+          </div>
+        )}
+
+        {q.answerPrompt && (
+          <div>
+            <div className="sec" style={{marginBottom:6,color:"var(--purple)"}}>✍️ Your Task</div>
+            <div className="lc-prompt">{q.answerPrompt}</div>
+          </div>
+        )}
+      </div>
+
+      {!hintRevd
+        ? <button className="btn btn-ghost" style={{fontSize:12,marginBottom:12}} onClick={()=>setHintRevd(true)}>
+            💡 Show Hint {experience==="Experienced"?" (−15 pts)":"(Free)"}
+          </button>
+        : <div className="hint-box">💡 <strong>Hint:</strong> {q.hint}</div>
+      }
+
+      <textarea className="ta" rows={7}
+        placeholder="Explain your approach clearly:\n1. Algorithm / Strategy\n2. Time Complexity (Big O)\n3. Space Complexity\n4. Edge Cases"
+        value={textAns} onChange={e=>setTextAns(e.target.value)} style={{marginBottom:14}}/>
+
+      <div style={{margin:"0 0 14px"}}>
+        <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
+          <span className="lbl">Confidence Level</span>
+          <span style={{fontSize:13,fontWeight:700,color:"var(--blue)"}}>{["","😰 Low","🤔 Unsure","😐 Okay","😊 Confident","💪 Very Sure!"][confidence]}</span>
+        </div>
+        <input type="range" min={1} max={5} value={confidence} onChange={e=>setConfidence(parseInt(e.target.value))}/>
+      </div>
+      <button className="btn btn-primary btn-full" onClick={onSubmit}>Submit Answer →</button>
+    </div>
+  );
+}
+
+function App() {
+  // Steps: 0=onboard, 0.5=tech+org, 1=loading, 2=question, 3=eval, 4=training selector, 4.5=training module, 5=agent, 6=dashboard
+  const [step, setStep] = useState(0);
+  const [loadMsg, setLoadMsg] = useState("");
+  const [profile, setProfile] = useState({
+    name:"", email:"", empId:"", role:"", language:null, domain:null,
+    selfLevel:"Beginner", experience:"", techStack:[], otherTech:"",
+    prevCompany:"", yearsExp:""
+  });
+  const [orgProfile, setOrgProfile] = useState({ orgName:"", tools:"", workflows:"", domain:"" });
+
+  // Question state
+  const [usedIds, setUsedIds] = useState([]);
+  const [qNum, setQNum] = useState(0);
+  const [currentQ, setCurrentQ] = useState(null);
+  const [qSource, setQSource] = useState("Local DB");
+  const [mcqAns, setMcqAns] = useState(null);
+  const [textAns, setTextAns] = useState("");
+  const [confidence, setConfidence] = useState(3);
+  const [hintRevd, setHintRevd] = useState(false);
+  const [qStart, setQStart] = useState(null);
+  const [elapsed, setElapsed] = useState(0);
+  const timerRef = useRef(null);
+
+  const [lastResult, setLastResult] = useState(null);
+  const [allAnswers, setAllAnswers] = useState([]);
+  const [finalReport, setFinalReport] = useState(null);
+  const [sessionEndTime, setSessionEndTime] = useState(null);
+  const [dlDisabled, setDLDisabled] = useState(false);
+
+  // Training
+  const [trainTopics, setTrainTopics] = useState([]);
+  const [trainModule, setTrainModule] = useState(null);
+  const [trainSub, setTrainSub] = useState("teach");
+  const [trainAns, setTrainAns] = useState("");
+  const [trainResult, setTrainResult] = useState(null);
+  const [trainChat, setTrainChat] = useState([]);
+  const [trainChatInput, setTrainChatInput] = useState("");
+  const trainEnd = useRef(null);
+
+  // Agent
+  const [agentLog, setAgentLog] = useState([]);
+  const [agentInput, setAgentInput] = useState("");
+  const agentEnd = useRef(null);
+
+  useEffect(()=>{ agentLog.length>0 && agentEnd.current?.scrollIntoView({behavior:"smooth"}); },[agentLog]);
+  useEffect(()=>{ trainChat.length>0 && trainEnd.current?.scrollIntoView({behavior:"smooth"}); },[trainChat]);
+
+  useEffect(()=>{
+    if (step===2){setQStart(Date.now());setElapsed(0);timerRef.current=setInterval(()=>setElapsed(e=>e+1),1000);}
+    else clearInterval(timerRef.current);
+    return()=>clearInterval(timerRef.current);
+  },[step,qNum]);
+
+  useEffect(()=>{
+    if(!sessionEndTime)return;
+    const t=setInterval(()=>{if(Date.now()-sessionEndTime>7200000){setDLDisabled(true);clearInterval(t);}},30000);
+    return()=>clearInterval(t);
+  },[sessionEndTime]);
+
+  // ── Helpers
+  const initAgent = () => {
+    const orgNote = orgProfile.orgName
+      ? `\n\n🏢 I see you're from **${orgProfile.orgName}**. I'll tailor my answers to your stack (${orgProfile.tools || "your tools"}) and workflows (${orgProfile.workflows || "your processes"}).`
+      : "";
+    setAgentLog([{ role:"ai", text:`👋 Hello! I'm your interactive learning assistant.${orgNote}\n\nYou can ask me about any topic:\n• HashMap & Closures\n• WMS Picking & LPN\n• SQL Indexes & Transactions\n• Python Generators & Decorators\n• P2P Cycle & Drop Shipment\n• Payroll & Absence Management\n• Depreciation & Mass Additions\n\n💡 Tip: If you're training for a specific org topic, include your context — e.g. "How does wave planning work in our Oracle WMS setup?"` }]);
+  };
+
+  // ── Load Question
+  const loadQ = async (lvl) => {
+    setLoadMsg("Generating Adaptive Question...");
+    setStep(1);
+    setHintRevd(false); setMcqAns(null); setTextAns(""); setConfidence(3);
+    try {
+      const r = await post("/generate-question", {
+        role:profile.role, track:profile.role==="Developer"?profile.language:profile.domain,
+        level:lvl||profile.selfLevel, experience:profile.experience,
+        questionNumber:qNum, techStack:profile.techStack, usedQuestionIds:usedIds
+      });
+      if(r.success){setCurrentQ(r.question);setQSource(r.source||"Local DB");setUsedIds(p=>[...p,r.question.id]);setStep(2);}
+      else throw new Error(r.error);
+    } catch(e){alert("Error: "+e.message);setStep(0);}
+  };
+
+  // ── Submit Answer
+  const submitAnswer = async () => {
+    const ans = (currentQ.type==="mcq"||currentQ.type==="leetcode") ? (currentQ.type==="mcq"?mcqAns:textAns) : textAns;
+    if(!ans)return alert("Please provide an answer.");
+    const timeSpent=Math.round((Date.now()-qStart)/1000);
+    setLoadMsg("Evaluating your answer...");setStep(1);
+    try{
+      const r=await post("/evaluate",{answer:ans,question:currentQ,experience:profile.experience,usedHint:hintRevd,timeSpentSeconds:timeSpent,confidenceRating:confidence});
+      if(r.success){
+        const result={...r.result,questionTitle:currentQ.title,timeSpent,confidence,answer:ans};
+        setLastResult(result);setAllAnswers(p=>[...p,result]);
+        setProfile(p=>({...p,selfLevel:r.result.nextLevel||p.selfLevel}));setStep(3);
+      }else throw new Error(r.error);
+    }catch(e){alert("Eval error: "+e.message);setStep(2);}
+  };
+
+  // ── Next / Finish Assessment
+  const handleNext = async () => {
+    const next=qNum+1;
+    if(next>=TOTAL_Q){
+      setLoadMsg("Building your Skill Profile...");setStep(1);
+      try{
+        const r=await post("/generate-report",{profile,answers:allAnswers});
+        if(r.success){
+          setFinalReport(r.report);
+          const wksObj = [];
+          for (const a of allAnswers) {
+             if (a.weaknesses && a.weaknesses.length > 0) {
+                for (const w of a.weaknesses) {
+                   if (!wksObj.find(x => x.topic === w)) {
+                      wksObj.push({ topic: w, failedData: a });
+                   }
+                }
+             }
+          }
+          setTrainTopics(wksObj.slice(0, TOTAL_TRAIN).length > 0 ? wksObj.slice(0, TOTAL_TRAIN) : [{topic:"hashmap"},{topic:"wave planning"},{topic:"depreciation"}]);
+          post("/save-session",{name:profile.name,role:profile.role,experience:profile.experience,report:r.report});
+          setStep(4);
+        }
+      }catch(e){alert(e.message);}
+    }else{setQNum(next);await loadQ(profile.selfLevel);}
+  };
+
+  // ── Load Training Module
+  const loadTrainModule = async (topicOrObj) => {
+    const topic = typeof topicOrObj === 'string' ? topicOrObj : topicOrObj.topic;
+    const failedData = typeof topicOrObj === 'string' ? null : topicOrObj.failedData;
+    setLoadMsg("Loading Training Module...");setStep(1);
+    try{
+      const r=await post("/training-module",{userTopic:topic,orgProfile,failedData});
+      if(r.success){
+        setTrainModule(r.module);setTrainSub("teach");setTrainAns("");setTrainResult(null);
+        setTrainChat([{role:"ai",text:`👩‍🏫 Starting training on: **${r.module.topic}**\n\nRead the explanation below. Once you're ready, ask me any questions before attempting the practice question!`}]);
+        setStep(4.5);
+      }
+    }catch(e){alert(e.message);finishTraining();}
+  };
+
+  // ── Training mini-chat (ask questions during training)
+  const askTrainChat = async () => {
+    if(!trainChatInput.trim())return;
+    const q=trainChatInput;
+    setTrainChat(p=>[...p,{role:"user",text:q}]);setTrainChatInput("");
+    try{
+      const r=await post("/agent-ask",{question:q,orgProfile});
+      if(r.success){
+        const{title,explanation,example,followUp}=r.answer;
+        let reply=`📖 ${title}\n\n${explanation}`;
+        if(example)reply+=`\n\n🔧 Example:\n${example}`;
+        if(followUp)reply+=`\n\n💬 ${followUp}`;
+        setTrainChat(p=>[...p,{role:"ai",text:reply}]);
+      }
+    }catch(e){setTrainChat(p=>[...p,{role:"ai",text:"❌ Could not reach the backend."}]);}
+  };
+
+  const submitTrainAns = async () => {
+    if(!trainAns.trim())return alert("Write your answer.");
+    setLoadMsg("Checking...");setStep(1);
+    try{
+      const r=await post("/evaluate",{answer:trainAns,question:trainModule.question,experience:profile.experience,usedHint:false,timeSpentSeconds:60,confidenceRating:3});
+      if(r.success){setTrainResult(r.result);setStep(4.5);}
+    }catch(e){alert(e.message);setStep(4.5);}
+  };
+
+  const finishTraining = () => {setSessionEndTime(Date.now()); initAgent(); setStep(5);};
+
+  // ── Agent
+  const askAgent = async () => {
+    if(!agentInput.trim())return;
+    const q=agentInput;
+    setAgentLog(p=>[...p,{role:"user",text:q}]);setAgentInput("");
+    try{
+      const r=await post("/agent-ask",{question:q,orgProfile});
+      if(r.success){
+        const{title,explanation,example,followUp}=r.answer;
+        let reply=`📖 ${title}\n\n${explanation}`;
+        if(example)reply+=`\n\n🔧 Example:\n${example}`;
+        if(followUp)reply+=`\n\n💬 ${followUp}`;
+        setAgentLog(p=>[...p,{role:"ai",text:reply}]);
+      }
+    }catch(e){setAgentLog(p=>[...p,{role:"ai",text:"❌ Could not reach the backend. Check if the server is running."}]);}
+  };
+
+  // ── PDF
+  const downloadPDF = () => {
+    if(dlDisabled)return alert("Download window expired (2 hours).");
+    const dd={content:[
+      {text:"DevProbe AI — Assessment Report",style:"header"},
+      {text:`Generated: ${new Date().toLocaleString()}  |  © Himanshu@2026`,style:"meta"},
+      {text:"\n"},{text:"Candidate Details",style:"section"},
+      {text:`Name: ${profile.name}`,style:"item"},{text:`Email: ${profile.email}`,style:"item"},
+      {text:`Role: ${profile.role} — ${profile.role==="Developer"?profile.language:profile.domain}`,style:"item"},
+      {text:`Experience: ${profile.experience}${profile.yearsExp?" ("+profile.yearsExp+" yrs)":""}`,style:"item"},
+      ...(orgProfile.orgName?[{text:`Organization: ${orgProfile.orgName}`,style:"item"}]:[]),
+      {text:"\n"},{text:"Assessment Summary",style:"section"},
+      {text:`Average Score: ${finalReport?.averageScore||0}/100`,style:"item"},
+      {text:`Risk Level: ${finalReport?.riskLevel}`,style:"item"},
+      {text:`Final Level: ${profile.selfLevel}`,style:"item"},
+      {text:"\n"},{text:"Strengths",style:"section"},
+      ...(finalReport?.strengths||[]).map(s=>({text:`• ${s}`,style:"bullet"})),
+      {text:"\n"},{text:"Areas for Improvement",style:"section"},
+      ...(finalReport?.weaknesses||[]).map(w=>({text:`• ${w}`,style:"bullet"})),
+      {text:"\n"},{text:"Question Breakdown",style:"section"},
+      {table:{widths:["*",50,60,70],body:[
+        [{text:"Question",style:"th"},{text:"Score",style:"th"},{text:"Time(s)",style:"th"},{text:"Conf.",style:"th"}],
+        ...allAnswers.map(a=>[a.questionTitle||"",String(a.score||0),String(a.timeSpent||0),String(a.confidence||"-")])
+      ]}},
+      {text:"\n"},{text:`Recommendation: ${finalReport?.recommendation||""}`,style:"meta"},
+      {text:"\n\n© Himanshu@2026 — All Rights Reserved",style:"footer"}
+    ],styles:{
+      header:{fontSize:18,bold:true,color:"#1e3a8a",margin:[0,0,0,6]},
+      section:{fontSize:13,bold:true,color:"#1e40af",margin:[0,12,0,4]},
+      item:{fontSize:11,margin:[0,2,0,2]},bullet:{fontSize:11,margin:[10,2,0,2]},
+      meta:{fontSize:10,color:"#64748b",italics:true},th:{bold:true,fontSize:11,color:"#1e3a8a"},
+      footer:{fontSize:10,color:"#94a3b8",italics:true,alignment:"center"}
+    },defaultStyle:{font:"Roboto",fontSize:11}};
+    pdfMake.createPdf(dd).download(`${profile.name}_DevProbe_Report.pdf`);
+  };
+
+  // ════════════════════════════════════════════════════════════
+  //   RENDER
+  // ════════════════════════════════════════════════════════════
+
+  // ── STAGE 0: ONBOARDING
+  if (step === 0) {
+    const valid = profile.name && profile.email && profile.role && profile.experience &&
+      (profile.role==="Developer"?profile.language:profile.domain);
+    const handleStart = () => {
+      if(!valid)return alert("Please fill all required fields.");
+      setStep(0.5);
+    };
+    return (
+      <div>
+        <div className="header">
+          <div className="logo-pill">DevProbe AI</div>
+          <div className="h1">Adaptive Learning Platform</div>
+          <div className="muted">Assessment · Training · Growth</div>
+        </div>
+        <div className="card">
+          <span className="sec">Candidate Information</span>
+          <div className="row">
+            <div className="col ig"><label className="lbl">Full Name *</label><input className="inp" placeholder="Your full name" value={profile.name} onChange={e=>setProfile({...profile,name:e.target.value})}/></div>
+            <div className="col ig"><label className="lbl">Email *</label><input className="inp" type="email" placeholder="you@company.com" value={profile.email} onChange={e=>setProfile({...profile,email:e.target.value})}/></div>
+          </div>
+          <div className="ig"><label className="lbl">Employee ID (Optional)</label><input className="inp" placeholder="EMP-001" value={profile.empId} onChange={e=>setProfile({...profile,empId:e.target.value})}/></div>
+        </div>
+        <div className="card">
+          <span className="sec">Experience Level *</span>
+          <div className="tg-group">
+            <button className={`tg ${profile.experience==="Fresher"?"on":""}`} onClick={()=>setProfile({...profile,experience:"Fresher"})}>🌱 Fresher (0–2 yrs)</button>
+            <button className={`tg ${profile.experience==="Experienced"?"on":""}`} onClick={()=>setProfile({...profile,experience:"Experienced"})}>⚡ Experienced (3+ yrs)</button>
+          </div>
+          <span className="sec">Select Role *</span>
+          <div className="tg-group">
+            <button className={`tg ${profile.role==="Developer"?"on":""}`} onClick={()=>setProfile({...profile,role:"Developer",language:null,domain:null})}>👨‍💻 Developer</button>
+            <button className={`tg ${profile.role==="Functional"?"on":""}`} onClick={()=>setProfile({...profile,role:"Functional",language:null,domain:null})}>📦 Functional</button>
+          </div>
+          {profile.role==="Developer"&&<><span className="sec">Primary Language *</span><div className="tg-group">{["Java","JavaScript","SQL","Python"].map(l=><button key={l} className={`tg ${profile.language===l?"on":""}`} onClick={()=>setProfile({...profile,language:l})}>{l}</button>)}</div></>}
+          {profile.role==="Functional"&&<><span className="sec">Primary Domain *</span><div className="tg-group">{["WMS","SCM","HCM","Fixed Assets"].map(d=><button key={d} className={`tg ${profile.domain===d?"on":""}`} onClick={()=>setProfile({...profile,domain:d})}>{d}</button>)}</div></>}
+        </div>
+        <div className="card">
+          <span className="sec">Self-Assessed Skill Level</span>
+          <div className="muted" style={{marginBottom:10}}>Calibrates starting difficulty. Be honest — the system adapts regardless.</div>
+          <div className="tg-group">{["Beginner","Intermediate","Advanced"].map(l=><button key={l} className={`tg ${profile.selfLevel===l?"on-green":""}`} onClick={()=>setProfile({...profile,selfLevel:l})}>{l}</button>)}</div>
+        </div>
+        <button className="btn btn-primary btn-full" onClick={handleStart} disabled={!valid}>Next: Background & Org Profile →</button>
+        <Footer/>
+      </div>
+    );
+  }
+
+  // ── STAGE 0.5: TECH + ORG PROFILE
+  if (step === 0.5) {
+    const toggle = t => setProfile(p=>({...p,techStack:p.techStack.includes(t)?p.techStack.filter(x=>x!==t):[...p.techStack,t]}));
+    return (
+      <div>
+        <div className="header">
+          <div className="logo-pill">Step 2 of 2</div>
+          <div className="h1" style={{fontSize:24}}>Your Background & Organization</div>
+          <div className="muted">This personalizes every question and training module to match your real environment.</div>
+        </div>
+        {/* Tech background for experienced */}
+        {profile.experience==="Experienced" && <div className="card">
+          <span className="sec">Your Professional Background</span>
+          <div className="row">
+            <div className="col ig"><label className="lbl">Previous Company</label><input className="inp" placeholder="TCS, Infosys, your project..." value={profile.prevCompany} onChange={e=>setProfile({...profile,prevCompany:e.target.value})}/></div>
+            <div className="col ig"><label className="lbl">Years of Experience</label><input className="inp" placeholder="5" value={profile.yearsExp} onChange={e=>setProfile({...profile,yearsExp:e.target.value})}/></div>
+          </div>
+          <span className="sec">Technologies You've Worked With</span>
+          <div className="tech-grid">{TECH_OPTIONS.map(t=><button key={t} className={`chip ${profile.techStack.includes(t)?"on":""}`} onClick={()=>toggle(t)}><span className="ck">✓</span>{t}</button>)}</div>
+          <label className="lbl">Other Technologies (Free Text)</label>
+          <textarea className="ta" rows={2} placeholder="Kafka, Terraform, SAP, Fusion, Redis..." value={profile.otherTech} onChange={e=>setProfile({...profile,otherTech:e.target.value})}/>
+        </div>}
+
+        {/* Org Profile for EVERYONE */}
+        <div className="card">
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+            <span style={{fontSize:20}}>🏢</span>
+            <div>
+              <div className="h2" style={{fontSize:16,marginBottom:2}}>Organization-Aware Learning</div>
+              <div className="muted" style={{fontSize:13}}>Optional — but makes training deeply relevant to your real work environment.</div>
+            </div>
+          </div>
+          <div className="org-info">💡 When you fill this in, the AI training agent and mock scenarios will use your org's actual tools, workflows, and products — instead of generic examples.</div>
+          <div className="ig"><label className="lbl">Organization / Project Name</label><input className="inp" placeholder="e.g. ABC Corp, Project Phoenix, Warehouse Team..." value={orgProfile.orgName} onChange={e=>setOrgProfile({...orgProfile,orgName:e.target.value})}/></div>
+          <div className="ig"><label className="lbl">Core Tools / Products Used</label><textarea className="ta" rows={2} placeholder="e.g. Oracle WMS, Flexi Scanner, JIRA, AWS Lambda, Oracle Fusion..." value={orgProfile.tools} onChange={e=>setOrgProfile({...orgProfile,tools:e.target.value})}/></div>
+          <div className="ig"><label className="lbl">Key Workflows / Processes</label><textarea className="ta" rows={2} placeholder="e.g. Inbound receiving, Pick-Pack-Ship, Asset tracking, Payroll processing..." value={orgProfile.workflows} onChange={e=>setOrgProfile({...orgProfile,workflows:e.target.value})}/></div>
+          <div className="ig"><label className="lbl">Team Domain Focus</label><input className="inp" placeholder="e.g. Supply Chain, HR Tech, Finance, Warehouse Operations..." value={orgProfile.domain} onChange={e=>setOrgProfile({...orgProfile,domain:e.target.value})}/></div>
+        </div>
+
+        <div className="row" style={{marginTop:8}}>
+          <button className="btn btn-ghost col" onClick={()=>setStep(0)}>← Back</button>
+          <button className="btn btn-primary" style={{flex:2}} onClick={()=>loadQ(profile.selfLevel)}>🚀 Start Assessment ({TOTAL_Q} Questions)</button>
+        </div>
+        <Footer/>
+      </div>
+    );
+  }
+
+  // ── STAGE 1: LOADING
+  if (step === 1) return (<div><div className="card loader"><div className="spinner"></div><div style={{color:"var(--blue)",fontWeight:600,fontSize:15}}>{loadMsg}</div><div className="muted" style={{marginTop:6}}>DevProbe AI is processing...</div></div><Footer/></div>);
+
+  // ── STAGE 2: QUESTION
+  if (step === 2 && currentQ) {
+    const isLeetCode = currentQ.type === "leetcode";
+    const isMCQ = currentQ.type === "mcq";
+    return (
+      <div>
+        <div className="card-sm" style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+          <div style={{display:"flex",gap:7,alignItems:"center",flexWrap:"wrap"}}>
+            <span className="bdg b-blue">Q {qNum+1}/{TOTAL_Q}</span>
+            <span className="bdg b-cyan" style={{fontWeight:800}}>
+              📦 {profile.role === "Developer" ? profile.language : profile.domain}
+            </span>
+            <span className={`bdg ${currentQ.type==="mcq"?"b-blue":currentQ.type==="descriptive"?"b-purple":currentQ.type==="scenario"?"b-orange":"b-green"}`}>
+              {currentQ.type==="mcq"?"MCQ":currentQ.type==="descriptive"?"Descriptive":currentQ.type==="scenario"?"Scenario":"Code"}
+            </span>
+            <span className={`bdg ${currentQ.level==="Beginner"?"b-green":currentQ.level==="Intermediate"?"b-yellow":"b-red"}`}>{currentQ.level}</span>
+            <span className={`bdg ${qSource==="LeetCode"?"b-cyan":qSource==="QuizAPI"?"b-orange":"b-blue"}`} style={{fontSize:10}}>{qSource}</span>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:6}}>
+            <span style={{fontSize:11,color:"var(--muted)"}}>Time</span>
+            <span className={`timer ${elapsed>90?"timer-d":elapsed>60?"timer-w":""}`}>{String(Math.floor(elapsed/60)).padStart(2,"0")}:{String(elapsed%60).padStart(2,"0")}</span>
+          </div>
+        </div>
+        <div className="prog-bar"><div className="prog-fill" style={{width:`${(qNum/TOTAL_Q)*100}%`}}></div></div>
+
+        {isLeetCode ? (
+          <div className="card">
+            <LeetCodeQuestion q={currentQ} mcqAns={mcqAns} setMcqAns={setMcqAns} textAns={textAns} setTextAns={setTextAns} hintRevd={hintRevd} setHintRevd={setHintRevd} experience={profile.experience} confidence={confidence} setConfidence={setConfidence} onSubmit={submitAnswer}/>
+          </div>
+        ) : (
+          <div className="card">
+            {/* Question type + topic */}
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
+              <span className={`bdg ${
+                currentQ.type==="mcq"?"b-blue":currentQ.type==="descriptive"?"b-purple":currentQ.type==="scenario"?"b-orange":"b-cyan"
+              }`} style={{fontSize:12,fontWeight:700,padding:"5px 13px"}}>
+                {currentQ.type==="mcq"?"📋 Multiple Choice":currentQ.type==="descriptive"?"✍️ Descriptive":currentQ.type==="scenario"?"🏭 Scenario":"💻 Code"}
+              </span>
+              {currentQ.track && <span className="bdg b-cyan" style={{fontSize:11}}>📦 {currentQ.track}</span>}
+            </div>
+
+            <div className="h2" style={{marginBottom:12,lineHeight:1.45}}>{currentQ.title}</div>
+            <div style={{color:"var(--text)",fontSize:15,lineHeight:1.8,marginBottom:currentQ.code?0:18,whiteSpace:"pre-wrap"}}>{currentQ.text}</div>
+
+            {currentQ.code && (
+              <div style={{marginBottom:18}}>
+                <div style={{fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,color:"var(--muted)",marginBottom:8}}>Code to Analyze</div>
+                <div className="code-blk">{currentQ.code}</div>
+              </div>
+            )}
+
+            {!hintRevd
+              ?<button className="btn btn-ghost" style={{marginBottom:14,fontSize:12}} onClick={()=>setHintRevd(true)}>💡 Show Hint {profile.experience==="Experienced"?" (−15 pts)":"(Free)"}  </button>
+              :<div className="hint-box">💡 <strong>Hint:</strong> {currentQ.hint}</div>
+            }
+
+            {isMCQ && (
+              <div style={{marginBottom:14}}>
+                <div style={{fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,color:"var(--muted)",marginBottom:10}}>Choose the correct answer:</div>
+                {(currentQ.options||[]).map((opt,i)=>(
+                  <button key={i} className={`mcq-opt ${mcqAns===opt?"sel":""}`} onClick={()=>setMcqAns(opt)}>{opt}</button>
+                ))}
+              </div>
+            )}
+
+            {!isMCQ && (
+              <div style={{marginBottom:14}}>
+                <div style={{fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,color:"var(--muted)",marginBottom:8}}>
+                  {currentQ.type==="scenario"?"Your Analysis / Response:":currentQ.type==="code"?"Your Solution / Explanation:":"Your Answer:"}
+                </div>
+                <textarea className="ta" rows={7}
+                  placeholder={currentQ.type==="mcq"?"":currentQ.type==="code"?"Write your code and/or explanation here. Show your approach, time complexity, and edge cases...": currentQ.type==="scenario"?"Describe your investigation steps, root causes, and resolution...": "Write your detailed answer here. Explain concepts clearly with examples if possible..."}
+                  value={textAns} onChange={e=>setTextAns(e.target.value)}/>
+              </div>
+            )}
+
+            <div style={{margin:"0 0 16px"}}>
+              <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
+                <span className="lbl">How confident are you?</span>
+                <span style={{fontSize:13,fontWeight:700,color:"var(--blue)"}}>{["","😰 Low","🤔 Unsure","😐 Okay","😊 Confident","💪 Very Sure!"][confidence]}</span>
+              </div>
+              <input type="range" min={1} max={5} value={confidence} onChange={e=>setConfidence(parseInt(e.target.value))}/>
+            </div>
+            <button className="btn btn-primary btn-full" onClick={submitAnswer}>Submit Answer →</button>
+          </div>
+        )}
+        <Footer/>
+      </div>
+    );
+  }
+
+  // ── STAGE 3: EVAL RESULT
+  if (step === 3 && lastResult) {
+    const s = lastResult.score;
+    return (
+      <div>
+        <div className="card">
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14,flexWrap:"wrap",gap:8}}>
+            <div className="h2" style={{margin:0}}>Evaluation Result</div>
+            <div style={{display:"flex",gap:7}}>
+              <span className={`bdg ${s>=80?"b-green":s>=45?"b-yellow":"b-red"}`}>{s>=80?"✅ Strong":s>=45?"⚠️ Partial":"❌ Needs Work"}</span>
+              <span className="bdg b-purple">{currentQ?.type=="mcq"?"MCQ":currentQ?.type=="leetcode"?"Coding":currentQ?.type=="scenario"?"Scenario":currentQ?.type=="code"?"Code":"Descriptive"}</span>
+            </div>
+          </div>
+          <div className="stat-grid">
+            <div className="stat-c"><div className="stat-l">Score</div><div className="stat-n" style={{color:scoreCol(s)}}>{s}<span style={{fontSize:13,color:"var(--muted)"}}>/100</span></div></div>
+            <div className="stat-c"><div className="stat-l">Time</div><div className="stat-n" style={{color:"var(--cyan)",fontSize:22}}>{lastResult.timeSpent}s</div></div>
+            <div className="stat-c"><div className="stat-l">Confidence</div><div className="stat-n" style={{fontSize:24}}>{"😰🤔😐😊💪".split("")[lastResult.confidence-1]}</div></div>
+            <div className="stat-c"><div className="stat-l">Level Now</div><div className="stat-n" style={{color:"var(--blue)",fontSize:18}}>{lastResult.nextLevel}</div></div>
+          </div>
+          <div className={s>=80?"fb-good":s>=45?"fb-mid":"fb-bad"} style={{marginBottom:12}}>{lastResult.feedback}</div>
+
+          {/* ALWAYS SHOW ANSWER EXPLANATION */}
+          {lastResult.correctionBlock && (
+            <div className="corr-blk" style={{
+              borderColor: lastResult.correctionBlock.isCorrect?"rgba(16,185,129,.3)":"rgba(239,68,68,.3)",
+              background: lastResult.correctionBlock.isCorrect?"rgba(16,185,129,.07)":"rgba(239,68,68,.05)"
+            }}>
+              <div style={{fontWeight:700,color:lastResult.correctionBlock.isCorrect?"var(--green)":"var(--red)",marginBottom:8,fontSize:15}}>
+                {lastResult.correctionBlock.isCorrect?"✅ Correct! Here's the explanation to reinforce your answer:":"📚 Correct Answer & Detailed Explanation"}
+              </div>
+              {lastResult.correctionBlock.correctOption && (
+                <div style={{marginBottom:10}}>
+                  <div style={{fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:1,color:"var(--muted)",marginBottom:5}}>Correct Option</div>
+                  <div className="corr-pill">{lastResult.correctionBlock.correctOption}</div>
+                </div>
+              )}
+              <div style={{fontSize:14,color:"var(--subtle)",lineHeight:1.85,whiteSpace:"pre-wrap",background:"rgba(0,0,0,.15)",borderRadius:8,padding:"12px 14px",marginTop:6}}>{lastResult.correctionBlock.explanation}</div>
+            </div>
+          )}
+          {lastResult.timeAnalysis && <div className="card-sm" style={{marginBottom:8,fontSize:14}}>{lastResult.timeAnalysis}</div>}
+          {lastResult.confidenceAnalysis && <div className="card-sm" style={{marginBottom:8,fontSize:14}}>{lastResult.confidenceAnalysis}</div>}
+          {lastResult.improvement && (
+            <div style={{background:"rgba(245,158,11,.06)",border:"1px solid rgba(245,158,11,.18)",borderRadius:10,padding:"12px 16px",marginBottom:14}}>
+              <span style={{fontWeight:700,color:"var(--yellow)"}}>📌 Study Next:</span>{" "}<span style={{fontSize:14,color:"var(--subtle)"}}>{lastResult.improvement}</span>
+            </div>
+          )}
+          <button className="btn btn-primary btn-full" onClick={handleNext}>{qNum+1>=TOTAL_Q?"Finish Assessment & Choose Training Topics →":`Next Question (${qNum+2}/${TOTAL_Q}) →`}</button>
+        </div>
+        <Footer/>
+      </div>
+    );
+  }
+
+  // ── STAGE 4: TRAINING TOPIC SELECTOR
+  if (step === 4) {
+    return (
+      <div>
+        <div className="card">
+          <div className="h2">🎯 Choose Your Training Topic</div>
+          <div className="muted" style={{marginBottom:16}}>Pick any topic — start with your weak areas or explore anything you're curious about.</div>
+
+          {trainTopics.length > 0 && <>
+            <span className="sec" style={{color:"var(--red)"}}>📌 Your Weak Areas (from this assessment)</span>
+            <div className="topic-grid" style={{marginBottom:20}}>
+              {trainTopics.map((t,i)=>(
+                <button key={i} className="topic-btn weak" onClick={()=>loadTrainModule(t)}>
+                  <span className="topic-cat">Recommended</span>
+                  {t.topic || t}
+                </button>
+              ))}
+            </div>
+          </>}
+
+          {Object.entries(TOPIC_BROWSER).map(([cat, topics]) => (
+            <div key={cat} style={{marginBottom:16}}>
+              <span className="sec">{cat}</span>
+              <div className="topic-grid">
+                {topics.map((t,i)=>(
+                  <button key={i} className="topic-btn" onClick={()=>loadTrainModule(t)}>
+                    <span className="topic-cat">Topic</span>
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="row">
+          <button className="btn btn-ghost col" onClick={finishTraining}>Skip to Report & Dashboard →</button>
+        </div>
+        <Footer/>
+      </div>
+    );
+  }
+
+  // ── STAGE 4.5: INTERACTIVE TRAINING MODULE
+  if (step === 4.5 && trainModule) {
+    return (
+      <div>
+        <div className="card-sm" style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+          <div style={{display:"flex",gap:8}}><span className="bdg b-green">Training Mode</span><span className="bdg b-purple">{trainModule.topic}</span></div>
+          <div style={{display:"flex",gap:8}}>
+            <button className="btn btn-ghost" style={{fontSize:12,padding:"6px 12px"}} onClick={()=>setStep(4)}>← Browse Topics</button>
+            <button className="btn btn-ghost" style={{fontSize:12,padding:"6px 12px"}} onClick={finishTraining}>Skip to Report →</button>
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="h2" style={{color:"var(--cyan)",marginBottom:16}}>📚 {trainModule.topic}</div>
+
+          {/* ASSESSMENT REVIEW */}
+          {trainModule.assessmentReview && (
+            <div style={{display:"flex",gap:12,marginBottom:16}}>
+              <div style={{width:28,height:28,borderRadius:"50%",background:"rgba(239,68,68,.15)",color:"var(--red)",border:"2px solid rgba(239,68,68,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:13,flexShrink:0}}>!</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:700,color:"var(--red)",marginBottom:8}}>Assessment Review</div>
+                <div className="card-sm" style={{lineHeight:1.85,fontSize:14,whiteSpace:"pre-wrap",borderColor:"rgba(239,68,68,.2)"}}>
+                  <strong style={{color:"var(--text)"}}>Question:</strong> {trainModule.assessmentReview.questionTitle}<br/><br/>
+                  <strong style={{color:"var(--text)"}}>Your Answer:</strong> {trainModule.assessmentReview.userAnswer}<br/><br/>
+                  <strong style={{color:"var(--red)"}}>Why this topic matters:</strong> {trainModule.assessmentReview.correction}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TEACH */}
+          <div style={{display:"flex",gap:12,marginBottom:16}}>
+            <div style={{width:28,height:28,borderRadius:"50%",background:"rgba(59,130,246,.15)",color:"var(--blue)",border:"2px solid rgba(59,130,246,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:13,flexShrink:0}}>1</div>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:700,color:"var(--blue)",marginBottom:8}}>Concept Explanation</div>
+              <div className="card-sm" style={{lineHeight:1.85,fontSize:14,whiteSpace:"pre-wrap"}}>{trainModule.teach}</div>
+              {trainModule.example && (
+                <div className="code-blk" style={{marginTop:8}}>{trainModule.example}</div>
+              )}
+            </div>
+          </div>
+
+          {/* INTERACTIVE MINI CHAT during training */}
+          {trainSub !== "teach" || true ? (
+            <div style={{marginBottom:16}}>
+              <div style={{fontWeight:700,color:"var(--purple)",marginBottom:8,fontSize:13}}>💬 Ask Me Anything About This Topic</div>
+              <div className="train-mini-chat">
+                {trainChat.map((m,i)=>(
+                  <div key={i} className={`train-bubble ${m.role==="user"?"tbl-user":"tbl-ai"}`}>{m.text}</div>
+                ))}
+                <div ref={trainEnd}/>
+              </div>
+              <div style={{display:"flex",gap:8}}>
+                <input className="inp" style={{margin:0,flex:1,fontSize:13}} placeholder="Ask about this concept... (e.g. 'Give me an example with lists')" value={trainChatInput} onChange={e=>setTrainChatInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&askTrainChat()}/>
+                <button className="btn btn-purple" style={{whiteSpace:"nowrap"}} onClick={askTrainChat}>Ask</button>
+              </div>
+            </div>
+          ) : null}
+
+          {/* SCENARIO */}
+          {(trainSub==="scenario"||trainSub==="ask"||trainResult) && (
+            <div style={{display:"flex",gap:12,marginBottom:16}}>
+              <div style={{width:28,height:28,borderRadius:"50%",background:"rgba(245,158,11,.15)",color:"var(--yellow)",border:"2px solid rgba(245,158,11,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:13,flexShrink:0}}>2</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:700,color:"var(--yellow)",marginBottom:8}}>🏭 Real Scenario{orgProfile.orgName?" ("+orgProfile.orgName+")":""}</div>
+                <div className="card-sm" style={{borderColor:"rgba(245,158,11,.2)",lineHeight:1.85,fontSize:14}}>{trainModule.scenario}</div>
+              </div>
+            </div>
+          )}
+
+          {/* PRACTICE Q */}
+          {(trainSub==="ask"||trainResult) && (
+            <div style={{display:"flex",gap:12,marginBottom:16}}>
+              <div style={{width:28,height:28,borderRadius:"50%",background:"rgba(16,185,129,.15)",color:"var(--green)",border:"2px solid rgba(16,185,129,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:13,flexShrink:0}}>3</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:700,color:"var(--green)",marginBottom:8}}>🎯 Practice Question</div>
+                <div style={{fontSize:15,fontWeight:500,marginBottom:12,whiteSpace:"pre-wrap"}}>{trainModule.question?.text}</div>
+                {trainModule.question?.type==="mcq"
+                  ? (trainModule.question.options||[]).map((opt,i)=>(
+                      <button key={i} className={`mcq-opt ${trainAns===opt?"sel":""} ${trainResult?(opt.trim().startsWith(trainModule.question.correctAnswer)?"correct-opt":trainAns===opt?"wrong-opt":""):""}`}
+                        onClick={()=>!trainResult&&setTrainAns(opt)}>{opt}</button>
+                    ))
+                  : <textarea className="ta" rows={4} placeholder="Apply what you just learned..." value={trainAns} onChange={e=>setTrainAns(e.target.value)} disabled={!!trainResult}/>
+                }
+                {!trainResult && <button className="btn btn-green btn-full" style={{marginTop:10}} onClick={submitTrainAns}>Submit Practice Answer</button>}
+              </div>
+            </div>
+          )}
+
+          {/* Training result */}
+          {trainResult && (
+            <div>
+              <div className={trainResult.score>=70?"fb-good":"fb-mid"} style={{marginBottom:10}}>
+                <strong>Practice Score: {trainResult.score}/100</strong><br/>{trainResult.feedback}
+              </div>
+              {trainResult.correctionBlock && (
+                <div className="corr-blk">
+                  <div style={{fontWeight:700,color:"var(--green)",marginBottom:7}}>✅ Correct Answer</div>
+                  {trainResult.correctionBlock.correctOption && <div className="corr-pill">{trainResult.correctionBlock.correctOption}</div>}
+                  <div style={{fontSize:14,color:"var(--subtle)",lineHeight:1.75,marginTop:8}}>{trainResult.correctionBlock.explanation}</div>
+                </div>
+              )}
+              <div className="row" style={{marginTop:14}}>
+                <button className="btn btn-ghost col" onClick={()=>setStep(4)}>← Pick Another Topic</button>
+                <button className="btn btn-green" style={{flex:2}} onClick={finishTraining}>✅ Finish & View Report →</button>
+              </div>
+            </div>
+          )}
+
+          {/* Step controls */}
+          {!trainResult && (
+            <div style={{marginTop:16}}>
+              {trainSub==="teach" && <button className="btn btn-primary btn-full" onClick={()=>setTrainSub("scenario")}>See Real Scenario →</button>}
+              {trainSub==="scenario" && <button className="btn btn-primary btn-full" onClick={()=>setTrainSub("ask")}>Try Practice Question →</button>}
+            </div>
+          )}
+        </div>
+        <Footer/>
+      </div>
+    );
+  }
+
+  // ── STAGE 5: AGENT
+  if (step === 5) return (
+    <div>
+      <div className="card-sm" style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+        <div style={{display:"flex",gap:8}}><span className="bdg b-purple">🤖 Learning Agent</span>{orgProfile.orgName&&<span className="bdg b-orange">🏢 {orgProfile.orgName}</span>}</div>
+        <button className="btn btn-ghost" style={{fontSize:12,padding:"6px 12px"}} onClick={()=>{setSessionEndTime(Date.now());setStep(6);}}>View Final Report →</button>
+      </div>
+      <div className="card">
+        <div className="h2">Ask Me Anything</div>
+        {orgProfile.orgName && (
+          <div className="org-info">🏢 Org-Aware Mode: I'll tailor explanations to <strong>{orgProfile.orgName}</strong> and your stack ({orgProfile.tools||"your tools"}). Try asking: "How does {orgProfile.tools?.split(",")[0]||"your tool"} handle {orgProfile.workflows?.split(",")[0]||"your workflow"}?"</div>
+        )}
+        <div className="chat-wrap">
+          <div className="chat-log">{agentLog.map((m,i)=><div key={i} className={`bubble ${m.role==="user"?"bbl-user":"bbl-ai"}`}>{m.text}</div>)}<div ref={agentEnd}/></div>
+          <div className="chat-foot">
+            <input className="inp" style={{margin:0,flex:1}} placeholder="Ask anything — HashMap, WMS Picking, SQL Indexes, Payroll..." value={agentInput} onChange={e=>setAgentInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&askAgent()}/>
+            <button className="btn btn-primary" onClick={askAgent}>Send</button>
+          </div>
+        </div>
+        <div className="row" style={{marginTop:14}}>
+          <button className="btn btn-ghost col" onClick={()=>setStep(4)}>← Back to Training Topics</button>
+          <button className="btn btn-green" style={{flex:2}} onClick={()=>{setSessionEndTime(Date.now());setStep(6);}}>✅ View Final Report →</button>
+        </div>
+      </div>
+      <Footer/>
+    </div>
+  );
+
+  // ── STAGE 6: DASHBOARD
+  if (step === 6 && finalReport) {
+    const avg = finalReport.averageScore;
+    return (
+      <div>
+        <div className="card" style={{textAlign:"center"}}>
+          <div className="logo-pill">Assessment Complete</div>
+          <div className="h1" style={{fontSize:28,marginTop:10}}>{profile.name}</div>
+          <div className="muted">{profile.email}</div>
+          {orgProfile.orgName && <div style={{color:"var(--orange)",fontSize:14,marginTop:4}}>🏢 {orgProfile.orgName}{orgProfile.domain&&` — ${orgProfile.domain}`}</div>}
+          <div style={{marginTop:12,display:"flex",justifyContent:"center",gap:8,flexWrap:"wrap"}}>
+            <span className="bdg b-blue">{profile.role} — {profile.role==="Developer"?profile.language:profile.domain}</span>
+            <span className="bdg b-purple">{profile.experience}</span>
+            <span className={`bdg ${profile.selfLevel==="Beginner"?"b-green":profile.selfLevel==="Intermediate"?"b-yellow":"b-red"}`}>{profile.selfLevel} Level</span>
+          </div>
+        </div>
+        <div className="stat-grid">
+          <div className="stat-c"><div className="stat-l">Avg Score</div><div className="stat-n" style={{color:scoreCol(avg)}}>{avg}<span style={{fontSize:13,color:"var(--muted)"}}>/100</span></div></div>
+          <div className="stat-c"><div className="stat-l">Questions</div><div className="stat-n" style={{color:"var(--cyan)"}}>{allAnswers.length}</div></div>
+          <div className="stat-c"><div className="stat-l">Risk</div><div className="stat-n" style={{color:finalReport.riskLevel==="High"?"var(--red)":finalReport.riskLevel==="Medium"?"var(--yellow)":"var(--green)",fontSize:20}}>{finalReport.riskLevel}</div></div>
+          <div className="stat-c"><div className="stat-l">Avg Time/Q</div><div className="stat-n" style={{color:"var(--purple)",fontSize:22}}>{finalReport.averageTimePerQuestion}s</div></div>
+        </div>
+        <div className="row">
+          <div className="col card" style={{borderColor:"rgba(16,185,129,.2)"}}>
+            <span className="sec" style={{color:"var(--green)"}}>✅ Strengths</span>
+            {(finalReport.strengths||[]).length>0?finalReport.strengths.map((s,i)=><div key={i} className="bdg b-green" style={{display:"block",marginBottom:6}}>{s}</div>):<div className="muted">Keep practicing.</div>}
+          </div>
+          <div className="col card" style={{borderColor:"rgba(239,68,68,.2)"}}>
+            <span className="sec" style={{color:"var(--red)"}}>📌 Weak Areas</span>
+            {(finalReport.weaknesses||[]).length>0?finalReport.weaknesses.map((w,i)=><div key={i} className="bdg b-red" style={{display:"block",marginBottom:6}}>{w}</div>):<div className="muted">No major gaps.</div>}
+          </div>
+        </div>
+        <div className="card">
+          <span className="sec">AI Summary</span>
+          <div style={{fontSize:15,lineHeight:1.8,color:"var(--subtle)",marginBottom:10}}>{finalReport.summary}</div>
+          <div className="hint-box">🎯 {finalReport.recommendation}</div>
+        </div>
+        <div className="card">
+          <span className="sec">Question Breakdown</span>
+          <table>
+            <thead><tr><th>#</th><th>Question</th><th>Score</th><th>Time</th><th>Conf.</th></tr></thead>
+            <tbody>{allAnswers.map((a,i)=>(
+              <tr key={i}>
+                <td><span className="bdg b-blue" style={{fontSize:11}}>{i+1}</span></td>
+                <td style={{fontSize:13}}>{a.questionTitle}</td>
+                <td><span style={{fontWeight:700,color:scoreCol(a.score)}}>{a.score}</span></td>
+                <td style={{color:"var(--muted)",fontSize:13}}>{a.timeSpent}s</td>
+                <td style={{fontSize:15}}>{"😰🤔😐😊💪".split("")[a.confidence-1]}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div className="row" style={{marginTop:8,marginBottom:20}}>
+          <button className={`btn col ${dlDisabled?"btn-ghost":"btn-primary"}`} onClick={downloadPDF} disabled={dlDisabled}>{dlDisabled?"⏰ Expired":"📄 Download PDF"}</button>
+          <button className="btn btn-purple col" onClick={()=>setStep(4)}>🎓 More Training</button>
+          <button className="btn btn-green col" onClick={()=>window.location.reload()}>🔄 New Session</button>
+        </div>
+        {!dlDisabled&&<div className="muted" style={{textAlign:"center",marginBottom:8,fontSize:11}}>PDF download available for 2 hours.</div>}
+        <Footer/>
+      </div>
+    );
+  }
+
+  return <div className="card loader"><div className="spinner"></div><Footer/></div>;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

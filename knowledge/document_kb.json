@@ -1,0 +1,63 @@
+[
+  {
+    "id": "doc_java_q1",
+    "track": "Java",
+    "level": "Beginner",
+    "type": "descriptive",
+    "title": "What is Java?",
+    "text": "Based on the training document, what is Java?",
+    "options": null,
+    "correctAnswer": null,
+    "correctAnswerText": "Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible. It is a general-purpose programming language intended to let programmers write once, run anywhere, meaning that compiled Java code can run on all platforms that support Java without the need to recompile.",
+    "expected": ["high-level", "class-based", "object-oriented", "write once", "run anywhere", "platforms"],
+    "hint": "Think about its implementation dependencies and write-once-run-anywhere philosophy.",
+    "source": "Document"
+  },
+  {
+    "id": "doc_java_q2",
+    "track": "Java",
+    "level": "Beginner",
+    "type": "descriptive",
+    "title": "JDK, JRE, JVM Differences",
+    "text": "Explain the difference between JDK, JRE, and JVM according to the provided material.",
+    "options": null,
+    "correctAnswer": null,
+    "correctAnswerText": "JDK (Java Development Kit) is a software development environment that includes JRE and development tools like a compiler and debugger. JRE (Java Runtime Environment) provides a runtime environment for running software. JVM (Java Virtual Machine) executes the compiled Java bytecode.",
+    "expected": ["jdk", "jre", "jvm", "development kit", "runtime environment", "virtual machine", "compiler"],
+    "hint": "What does each acronym stand for and what is their primary use?",
+    "source": "Document"
+  },
+  {
+    "id": "doc_java_q3",
+    "track": "Java",
+    "level": "Intermediate",
+    "type": "mcq",
+    "title": "Primary use of JDK",
+    "text": "What does the JDK include that the JRE does not?",
+    "options": [
+      "A. Only the Java Virtual Machine",
+      "B. Development tools like a compiler and debugger",
+      "C. Just the core libraries",
+      "D. The Java heap memory manager"
+    ],
+    "correctAnswer": "B",
+    "correctAnswerText": "JDK includes development tools like a compiler (javac), debugger, and documentation generator, whereas JRE only provides the runtime environment.",
+    "expected": ["development tools", "compiler"],
+    "hint": "Development vs Runtime.",
+    "source": "Document"
+  },
+  {
+    "id": "doc_java_q4",
+    "track": "Java",
+    "level": "Beginner",
+    "type": "code",
+    "title": "Document Base Code",
+    "text": "Write a simple Java application consisting of a single main class that prints 'Hello World'. This reflects the basic setup taught in the document.",
+    "options": null,
+    "correctAnswer": null,
+    "correctAnswerText": "```java\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello World\");\n    }\n}\n```",
+    "expected": ["public class", "public static void main", "System.out.println"],
+    "hint": "Standard public static void main declaration.",
+    "source": "Document"
+  }
+]

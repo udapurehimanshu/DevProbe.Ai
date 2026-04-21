@@ -1,0 +1,589 @@
+[
+  {
+    "id": 1776342045872,
+    "name": "himanshu",
+    "role": "Developer",
+    "experience": "Fresher",
+    "finalLevel": "Advanced",
+    "averageScore": 86.66666666666667,
+    "risk": "Low",
+    "weakAreas": [
+      "optimization",
+      "production diagnosis"
+    ],
+    "timestamp": "2026-04-16T12:20:45.872Z"
+  },
+  {
+    "id": 1776342813527,
+    "name": "stam",
+    "role": "Developer",
+    "experience": "Fresher",
+    "finalLevel": "Beginner",
+    "averageScore": 36.666666666666664,
+    "risk": "High",
+    "weakAreas": [
+      "optimization",
+      "production diagnosis"
+    ],
+    "timestamp": "2026-04-16T12:33:33.527Z"
+  },
+  {
+    "id": 1776343698623,
+    "name": "stam",
+    "role": "Developer",
+    "experience": "Fresher",
+    "finalLevel": "Intermediate",
+    "averageScore": 60,
+    "risk": "Medium risk",
+    "weakAreas": [
+      "Optional",
+      "runtime",
+      "compile-time",
+      "throws",
+      "HashMap"
+    ],
+    "timestamp": "2026-04-16T12:48:18.623Z"
+  },
+  {
+    "id": 1776349307066,
+    "name": "Himanshu ",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "Himanshu ",
+      "role": "Developer",
+      "experience": "Fresher",
+      "averageScore": 73,
+      "strengths": [
+        "null",
+        "HashMap",
+        "static",
+        "cache",
+        "Optional",
+        "null check"
+      ],
+      "weaknesses": [
+        "leak",
+        "eviction",
+        "WeakHashMap",
+        "ofNullable",
+        "checked",
+        "throws"
+      ],
+      "riskLevel": "Low",
+      "averageTimePerQuestion": 42,
+      "recommendation": "Focus training on: leak, eviction, WeakHashMap.",
+      "summary": "Himanshu  completed the Developer assessment with an average score of 73/100 at the undefined level."
+    },
+    "timestamp": "2026-04-16T14:21:47.066Z"
+  },
+  {
+    "id": 1776350654898,
+    "name": "user1",
+    "role": "Developer",
+    "experience": "Experienced",
+    "report": {
+      "name": "user1",
+      "role": "Developer",
+      "experience": "Experienced",
+      "averageScore": 76,
+      "strengths": [
+        "null",
+        "HashMap",
+        "checked",
+        "throws",
+        "IOException"
+      ],
+      "weaknesses": [
+        "Optional",
+        "null check",
+        "ofNullable",
+        "static",
+        "leak",
+        "eviction"
+      ],
+      "riskLevel": "Low",
+      "averageTimePerQuestion": 29,
+      "recommendation": "Focus training on: Optional, null check, ofNullable.",
+      "summary": "user1 completed the Developer assessment with an average score of 76/100 at the undefined level."
+    },
+    "timestamp": "2026-04-16T14:44:14.898Z"
+  },
+  {
+    "id": 1776352009071,
+    "name": "user1",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "user1",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Advanced",
+      "averageScore": 89,
+      "strengths": [
+        "Optional",
+        "null check",
+        "null",
+        "HashMap",
+        "BULK COLLECT",
+        "FORALL"
+      ],
+      "weaknesses": [
+        "ofNullable",
+        "if",
+        "LIMIT",
+        "redo",
+        "batch",
+        "algorithm"
+      ],
+      "riskLevel": "Low",
+      "averageTimePerQuestion": 31,
+      "recommendation": "Focus training on: ofNullable, if, LIMIT.",
+      "summary": "user1 completed the Developer assessment (Java) with an average score of 89/100 at Advanced level."
+    },
+    "timestamp": "2026-04-16T15:06:49.071Z"
+  },
+  {
+    "id": 1776354006388,
+    "name": "fdsf",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "fdsf",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Beginner",
+      "averageScore": 21,
+      "strengths": [],
+      "weaknesses": [
+        "algorithm",
+        "complexity",
+        "edge case",
+        "Big O"
+      ],
+      "riskLevel": "High",
+      "averageTimePerQuestion": 39,
+      "recommendation": "Focus training on: algorithm, complexity, edge case.",
+      "summary": "fdsf completed the Developer assessment (Java) with an average score of 21/100."
+    },
+    "timestamp": "2026-04-16T15:40:06.388Z"
+  },
+  {
+    "id": 1776574203206,
+    "name": "vijay",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "vijay",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Intermediate",
+      "averageScore": 48,
+      "strengths": [
+        "GROUP BY",
+        "aggregate",
+        "IS NULL",
+        "NULL comparison"
+      ],
+      "weaknesses": [
+        "algorithm",
+        "complexity",
+        "edge case",
+        "HAVING",
+        "aggregate",
+        "filter"
+      ],
+      "riskLevel": "Medium",
+      "averageTimePerQuestion": 26,
+      "recommendation": "Focus training on: algorithm, complexity, edge case.",
+      "summary": "vijay completed the Developer assessment (SQL) with an average score of 48/100 at Intermediate level."
+    },
+    "timestamp": "2026-04-19T04:50:03.206Z"
+  },
+  {
+    "id": 1776574630082,
+    "name": "hj",
+    "role": "Functional",
+    "experience": "Fresher",
+    "report": {
+      "name": "hj",
+      "role": "Functional",
+      "experience": "Fresher",
+      "level": "Beginner",
+      "averageScore": 30,
+      "strengths": [
+        "blanket",
+        "recurring",
+        "period",
+        "releases",
+        "allocation"
+      ],
+      "weaknesses": [
+        "invoice",
+        "3-way",
+        "receipt",
+        "back-to-back",
+        "SO",
+        "supply"
+      ],
+      "riskLevel": "High",
+      "averageTimePerQuestion": 16,
+      "recommendation": "Focus training on: invoice, 3-way, receipt.",
+      "summary": "hj completed the Functional assessment (SCM) with an average score of 30/100 at Beginner level."
+    },
+    "timestamp": "2026-04-19T04:57:10.082Z"
+  },
+  {
+    "id": 1776575757646,
+    "name": "qww",
+    "role": "Functional",
+    "experience": "Experienced",
+    "report": {
+      "name": "qww",
+      "role": "Functional",
+      "experience": "Experienced",
+      "level": "Advanced",
+      "averageScore": 77,
+      "strengths": [
+        "Following Month",
+        "prorate",
+        "convention",
+        "CIP",
+        "capitalize",
+        "transfer"
+      ],
+      "weaknesses": [
+        "next period",
+        "STL",
+        "$500",
+        "48 months",
+        "straight-line"
+      ],
+      "riskLevel": "Low",
+      "averageTimePerQuestion": 33,
+      "recommendation": "Focus training on: next period, STL, $500.",
+      "summary": "qww completed the Functional assessment (Fixed Assets) with an average score of 77/100 at Advanced level."
+    },
+    "timestamp": "2026-04-19T05:15:57.646Z"
+  },
+  {
+    "id": 1776576024915,
+    "name": "tgc",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "tgc",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Beginner",
+      "averageScore": 52,
+      "strengths": [
+        "null",
+        "HashMap",
+        "reference",
+        "equals",
+        "content",
+        "Optional"
+      ],
+      "weaknesses": [
+        "ofNullable",
+        "if",
+        "pool",
+        "immutable",
+        "shared",
+        "JOIN"
+      ],
+      "riskLevel": "Medium",
+      "averageTimePerQuestion": 17,
+      "recommendation": "Focus training on: ofNullable, if, pool.",
+      "summary": "tgc completed the Developer assessment (Java) with an average score of 52/100 at Beginner level."
+    },
+    "timestamp": "2026-04-19T05:20:24.915Z"
+  },
+  {
+    "id": 1776578647374,
+    "name": "g",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "g",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Intermediate",
+      "averageScore": 64,
+      "strengths": [
+        "GROUP BY",
+        "aggregate",
+        "HAVING",
+        "filter",
+        "IS NULL",
+        "NULL comparison"
+      ],
+      "weaknesses": [
+        "algorithm",
+        "complexity",
+        "edge case"
+      ],
+      "riskLevel": "Medium",
+      "averageTimePerQuestion": 9,
+      "recommendation": "Focus training on: algorithm, complexity, edge case.",
+      "summary": "g completed the Developer assessment (SQL) with an average score of 64/100 at Intermediate level."
+    },
+    "timestamp": "2026-04-19T06:04:07.374Z"
+  },
+  {
+    "id": 1776580039486,
+    "name": "hjsa",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "hjsa",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Intermediate",
+      "averageScore": 88,
+      "strengths": [
+        "GROUP BY",
+        "aggregate",
+        "IS NULL",
+        "NULL comparison",
+        "HAVING",
+        "filter"
+      ],
+      "weaknesses": [
+        "single",
+        "N+1",
+        "round-trip",
+        "LEFT JOIN"
+      ],
+      "riskLevel": "Low",
+      "averageTimePerQuestion": 6,
+      "recommendation": "Focus training on: single, N+1, round-trip.",
+      "summary": "hjsa completed the Developer assessment (SQL) with an average score of 88/100 at Intermediate level."
+    },
+    "timestamp": "2026-04-19T06:27:19.486Z"
+  },
+  {
+    "id": 1776581183335,
+    "name": "user",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "user",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Intermediate",
+      "averageScore": 100,
+      "strengths": [
+        "jdk",
+        "jre",
+        "jvm",
+        "compiler",
+        "runtime",
+        "bytecode"
+      ],
+      "weaknesses": [],
+      "riskLevel": "Low",
+      "averageTimePerQuestion": 25,
+      "recommendation": "Focus training on: advanced topics.",
+      "summary": "user completed the Developer assessment (Java) with an average score of 100/100 at Intermediate level."
+    },
+    "timestamp": "2026-04-19T06:46:23.335Z"
+  },
+  {
+    "id": 1776581261911,
+    "name": "dvd",
+    "role": "Developer",
+    "experience": "Experienced",
+    "report": {
+      "name": "dvd",
+      "role": "Developer",
+      "experience": "Experienced",
+      "level": "Intermediate",
+      "averageScore": 61,
+      "strengths": [
+        "LinkedList",
+        "O(1)",
+        "shift",
+        "null",
+        "HashMap",
+        "Optional"
+      ],
+      "weaknesses": [
+        "checked",
+        "IOException",
+        "algorithm",
+        "complexity",
+        "edge case"
+      ],
+      "riskLevel": "Medium",
+      "averageTimePerQuestion": 6,
+      "recommendation": "Focus training on: checked, IOException, algorithm.",
+      "summary": "dvd completed the Developer assessment (Java) with an average score of 61/100 at Intermediate level."
+    },
+    "timestamp": "2026-04-19T06:47:41.911Z"
+  },
+  {
+    "id": 1776582034923,
+    "name": "himsddsf",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "himsddsf",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Intermediate",
+      "averageScore": 100,
+      "strengths": [
+        "jdk",
+        "jre",
+        "jvm",
+        "compiler",
+        "runtime",
+        "bytecode"
+      ],
+      "weaknesses": [],
+      "riskLevel": "Low",
+      "averageTimePerQuestion": 9,
+      "recommendation": "Focus training on: advanced topics.",
+      "summary": "himsddsf completed the Developer assessment (Java) with an average score of 100/100 at Intermediate level."
+    },
+    "timestamp": "2026-04-19T07:00:34.924Z"
+  },
+  {
+    "id": 1776582962226,
+    "name": "hg",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "hg",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Beginner",
+      "averageScore": 71,
+      "strengths": [
+        "public class",
+        "public static void main",
+        "jdk",
+        "jre",
+        "jvm",
+        "development kit"
+      ],
+      "weaknesses": [
+        "System.out.println",
+        "high-level",
+        "class-based",
+        "object-oriented",
+        "write once",
+        "run anywhere"
+      ],
+      "riskLevel": "Low",
+      "averageTimePerQuestion": 28,
+      "recommendation": "Focus training on: System.out.println, high-level, class-based.",
+      "summary": "hg completed the Developer assessment (Java) with an average score of 71/100 at Beginner level."
+    },
+    "timestamp": "2026-04-19T07:16:02.226Z"
+  },
+  {
+    "id": 1776583074121,
+    "name": "sa",
+    "role": "Functional",
+    "experience": "Fresher",
+    "report": {
+      "name": "sa",
+      "role": "Functional",
+      "experience": "Fresher",
+      "level": "Intermediate",
+      "averageScore": 48,
+      "strengths": [
+        "back-to-back",
+        "SO",
+        "supply",
+        "PO",
+        "tolerance",
+        "receipt close tolerance"
+      ],
+      "weaknesses": [
+        "invoice",
+        "3-way",
+        "receipt",
+        "supplier",
+        "directly",
+        "PO"
+      ],
+      "riskLevel": "Medium",
+      "averageTimePerQuestion": 5,
+      "recommendation": "Focus training on: invoice, 3-way, receipt.",
+      "summary": "sa completed the Functional assessment (SCM) with an average score of 48/100 at Intermediate level."
+    },
+    "timestamp": "2026-04-19T07:17:54.121Z"
+  },
+  {
+    "id": 1776583538039,
+    "name": "sa",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "sa",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Beginner",
+      "averageScore": 61,
+      "strengths": [
+        "object-oriented",
+        "jdk",
+        "jre",
+        "jvm",
+        "development kit",
+        "runtime environment"
+      ],
+      "weaknesses": [
+        "high-level",
+        "class-based",
+        "write once",
+        "run anywhere",
+        "platforms",
+        "public class"
+      ],
+      "riskLevel": "Medium",
+      "averageTimePerQuestion": 11,
+      "recommendation": "Focus training on: high-level, class-based, write once.",
+      "summary": "sa completed the Developer assessment (Java) with an average score of 61/100 at Beginner level."
+    },
+    "timestamp": "2026-04-19T07:25:38.039Z"
+  },
+  {
+    "id": 1776766618875,
+    "name": "USER239",
+    "role": "Developer",
+    "experience": "Fresher",
+    "report": {
+      "name": "USER239",
+      "role": "Developer",
+      "experience": "Fresher",
+      "level": "Beginner",
+      "averageScore": 58,
+      "strengths": [
+        "high-level",
+        "class-based",
+        "object-oriented",
+        "write once",
+        "run anywhere",
+        "platforms"
+      ],
+      "weaknesses": [
+        "jdk",
+        "jre",
+        "jvm",
+        "development kit",
+        "runtime environment",
+        "virtual machine"
+      ],
+      "riskLevel": "Medium",
+      "averageTimePerQuestion": 24,
+      "recommendation": "Focus training on: jdk, jre, jvm.",
+      "summary": "USER239 completed the Developer assessment (Java) with an average score of 58/100 at Beginner level."
+    },
+    "timestamp": "2026-04-21T10:16:58.875Z"
+  }
+]
